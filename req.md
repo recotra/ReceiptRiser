@@ -19,30 +19,30 @@
 - [ ] Implement biometric authentication (fingerprint/face ID)
 
 ## 3. Receipt Scanning & Processing
-- [ ] Implement camera integration with camera package
-- [ ] Create receipt capture interface with image cropping
-- [ ] Integrate OCR using google_ml_kit or Firebase ML Vision
-- [ ] Implement text extraction logic for:
-  - [ ] Merchant name
-  - [ ] Address
-  - [ ] Transaction date
-  - [ ] Amount
-- [ ] Create receipt preview and confirmation screen
-- [ ] Implement image quality checks and enhancement with image_picker
-- [ ] Add proper error handling for camera and permissions
+- [x] Implement camera integration with camera package
+- [x] Create receipt capture interface with image cropping
+- [x] Integrate OCR using google_ml_kit or Firebase ML Vision
+- [x] Implement text extraction logic for:
+  - [x] Merchant name
+  - [x] Address
+  - [x] Transaction date
+  - [x] Amount
+- [x] Create receipt preview and confirmation screen
+- [x] Implement image quality checks and enhancement with image_picker
+- [x] Add proper error handling for camera and permissions
 - [ ] Implement cloud-based OCR with Google Cloud Vision API
-- [ ] Add gallery image selection as alternative to camera
+- [x] Add gallery image selection as alternative to camera
 - [ ] Implement real-time OCR feedback
 
 ## 4. Data Management & Storage
-- [ ] Design database schema
-- [ ] Set up local storage with sqflite or Hive
+- [x] Design database schema
+- [x] Set up local storage with sqflite or Hive
 - [ ] Implement cloud database with Firebase Firestore
 - [ ] Create data sync mechanism with StreamBuilders
 - [ ] Implement offline storage with cached_network_image
 - [ ] Set up Google Drive storage for receipt images
 - [ ] Create data backup system
-- [ ] Implement repository pattern for data access
+- [x] Implement repository pattern for data access
 
 ## 5. Receipt Categorization
 - [ ] Implement merchant classification algorithm
