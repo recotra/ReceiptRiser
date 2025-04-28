@@ -49,6 +49,13 @@ dependencies:
   cloud_firestore: ^4.15.9
   firebase_storage: ^11.6.10
 
+  # Google Authentication & Services
+  google_sign_in: ^6.2.1
+  googleapis: ^12.0.0
+  googleapis_auth: ^1.4.1
+  extension_google_sign_in_as_googleapis_auth: ^2.0.12
+  google_sign_in_web: ^0.12.3
+
   # Camera & Image Processing
   camera: ^0.10.5+9
   image_picker: ^1.0.7

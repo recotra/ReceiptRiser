@@ -95,4 +95,9 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
       whereArgs: [id],
     );
   }
+
+  // Get all receipts (for sync)
+  Future<List<Receipt>> getAllReceipts() async {
+    return await getReceipts();
+  }
 }

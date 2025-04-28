@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../features/receipt_scanning/ml/ml_receipt_parser.dart';
+import '../../services/auth/google_auth_service.dart';
 import 'model_training_screen.dart';
+import 'sync_settings_screen.dart';
+import 'login_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -11,22 +14,35 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final MLReceiptParser _mlParser = MLReceiptParser();
+  final GoogleAuthService _authService = GoogleAuthService();
   bool _isDarkMode = false;
   bool _isNotificationsEnabled = true;
   String _currency = 'USD';
-  
+
   final List<String> _currencies = ['USD', 'EUR', 'GBP', 'CAD', 'AUD', 'JPY', 'CNY'];
-  
+
   @override
   void initState() {
     super.initState();
     _initializeParser();
+    _checkAuthStatus();
   }
-  
+
   Future<void> _initializeParser() async {
     await _mlParser.initialize();
   }
-  
+
+  Future<void> _checkAuthStatus() async {
+    if (!_authService.isSignedIn) {
+      // Redirect to login screen if not signed in
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
+    }
+  }
+
   @override
   void dispose() {
     _mlParser.close();
@@ -54,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           const Divider(),
-          
+
           // Notifications section
           _buildSectionHeader('Notifications'),
           SwitchListTile(
@@ -68,7 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           const Divider(),
-          
+
           // Currency section
           _buildSectionHeader('Currency'),
           Padding(
@@ -96,7 +112,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 16),
           const Divider(),
-          
+
+          // Sync section
+          _buildSectionHeader('Sync'),
+          ListTile(
+            title: const Text('Google Sync'),
+            subtitle: const Text('Sync receipts with Google Sheets and Drive'),
+            leading: const Icon(Icons.sync),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SyncSettingsScreen(),
+                ),
+              );
+            },
+          ),
+          const Divider(),
+
           // Advanced section
           _buildSectionHeader('Advanced'),
           ListTile(
@@ -124,7 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           const Divider(),
-          
+
           // About section
           _buildSectionHeader('About'),
           ListTile(
@@ -146,11 +180,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
               // Navigate to privacy policy
             },
           ),
+          ListTile(
+            title: const Text('Sign Out'),
+            leading: const Icon(Icons.logout),
+            onTap: () async {
+              final confirmed = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Sign Out'),
+                  content: const Text('Are you sure you want to sign out?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text('Sign Out'),
+                    ),
+                  ],
+                ),
+              );
+
+              if (confirmed == true) {
+                try {
+                  await _authService.signOut();
+                  if (mounted) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    );
+                  }
+                } catch (e) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error signing out: $e')),
+                    );
+                  }
+                }
+              }
+            },
+          ),
         ],
       ),
     );
   }
-  
+
   Widget _buildSectionHeader(String title) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -164,7 +238,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
-  
+
   void _showClearDataDialog() {
     showDialog(
       context: context,

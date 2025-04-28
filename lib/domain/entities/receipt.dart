@@ -11,7 +11,9 @@ class Receipt extends Equatable {
   final String? currency;
   final String? category;
   final String? imageUrl;
+  final String? imagePath;
   final String? notes;
+  final String? receiptType;
   final DateTime createdAt;
   final DateTime? updatedAt;
 
@@ -25,7 +27,9 @@ class Receipt extends Equatable {
     this.currency,
     this.category,
     this.imageUrl,
+    this.imagePath,
     this.notes,
+    this.receiptType,
     required this.createdAt,
     this.updatedAt,
   });
@@ -40,7 +44,9 @@ class Receipt extends Equatable {
     String? currency,
     String? category,
     String? imageUrl,
+    String? imagePath,
     String? notes,
+    String? receiptType,
   }) {
     final now = DateTime.now();
     return Receipt(
@@ -53,7 +59,9 @@ class Receipt extends Equatable {
       currency: currency ?? 'USD',
       category: category,
       imageUrl: imageUrl,
+      imagePath: imagePath,
       notes: notes,
+      receiptType: receiptType ?? 'retail',
       createdAt: now,
       updatedAt: now,
     );
@@ -70,7 +78,9 @@ class Receipt extends Equatable {
     String? currency,
     String? category,
     String? imageUrl,
+    String? imagePath,
     String? notes,
+    String? receiptType,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -84,7 +94,9 @@ class Receipt extends Equatable {
       currency: currency ?? this.currency,
       category: category ?? this.category,
       imageUrl: imageUrl ?? this.imageUrl,
+      imagePath: imagePath ?? this.imagePath,
       notes: notes ?? this.notes,
+      receiptType: receiptType ?? this.receiptType,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -102,7 +114,9 @@ class Receipt extends Equatable {
       'currency': currency,
       'category': category,
       'imageUrl': imageUrl,
+      'imagePath': imagePath,
       'notes': notes,
+      'receiptType': receiptType,
       'createdAt': createdAt.millisecondsSinceEpoch,
       'updatedAt': updatedAt?.millisecondsSinceEpoch,
     };
@@ -120,7 +134,9 @@ class Receipt extends Equatable {
       currency: map['currency'],
       category: map['category'],
       imageUrl: map['imageUrl'],
+      imagePath: map['imagePath'],
       notes: map['notes'],
+      receiptType: map['receiptType'],
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
       updatedAt: map['updatedAt'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'])
@@ -139,7 +155,9 @@ class Receipt extends Equatable {
     currency,
     category,
     imageUrl,
+    imagePath,
     notes,
+    receiptType,
     createdAt,
     updatedAt
   ];
