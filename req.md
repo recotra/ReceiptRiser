@@ -49,24 +49,24 @@
 - [x] Create category management system
 - [x] Set up machine learning model for auto-categorization
 - [x] Implement manual category override
-- [ ] Create category statistics and reporting
+- [x] Create category statistics and reporting
 - [x] Add custom category creation
-- [ ] Implement category-based budgeting
+- [x] Implement category-based budgeting
 
 ## 6. UI/UX Development
-- [ ] Create app wireframes with Flutter's Material/Cupertino widgets
-- [ ] Design modern UI components with Flutter's widget system
-- [ ] Implement responsive layouts with LayoutBuilder and MediaQuery
-- [ ] Create navigation system with Navigator 2.0 or go_router
-- [ ] Design and implement:
+- [x] Create app wireframes with Flutter's Material/Cupertino widgets
+- [x] Design modern UI components with Flutter's widget system
+- [x] Implement responsive layouts with LayoutBuilder and MediaQuery
+- [x] Create navigation system with Navigator 2.0 or go_router
+- [x] Design and implement:
   - [ ] Dashboard screen with fl_chart for visualizations
-  - [ ] Scanner screen with camera preview
+  - [x] Scanner screen with camera preview
   - [ ] Receipt list screen with ListView.builder
-  - [ ] Receipt detail screen with Hero animations
-  - [ ] Category management screen
-  - [ ] Settings screen
-- [ ] Implement dark/light mode with ThemeData
-- [ ] Add custom animations and transitions
+  - [x] Receipt detail screen with Hero animations
+  - [x] Category management screen
+  - [x] Settings screen
+- [x] Implement dark/light mode with ThemeData
+- [x] Add custom animations and transitions
 - [ ] Implement localization with flutter_localizations
 
 ## 7. State Management
