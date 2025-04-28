@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_constants.dart';
+import '../../features/receipt_scanning/text_recognition_test.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -34,10 +35,10 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 48),
             ElevatedButton.icon(
               onPressed: () {
-                // TODO: Implement camera functionality
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Camera functionality coming soon!'),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TextRecognitionTest(),
                   ),
                 );
               },

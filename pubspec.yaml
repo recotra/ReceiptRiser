@@ -52,7 +52,7 @@ dependencies:
   # Camera & Image Processing
   camera: ^0.10.5+9
   image_picker: ^1.0.7
-  google_ml_kit: ^0.16.3
+  google_ml_kit: ^0.20.0
 
   # Storage
   shared_preferences: ^2.2.2
