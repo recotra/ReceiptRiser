@@ -683,7 +683,7 @@ packages:
     source: hosted
     version: "0.14.1"
   google_mlkit_entity_extraction:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_mlkit_entity_extraction
       sha256: "145bc26422b7e62d50cc4eca1ac394d13ac6a97e4c09b8baf7ff058b64d2f9cc"

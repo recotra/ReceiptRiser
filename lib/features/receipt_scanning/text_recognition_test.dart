@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
-import 'receipt_parser.dart';
+import 'ml/ml_receipt_parser.dart';
 import '../../presentation/screens/receipt_confirmation_screen.dart';
 
 class TextRecognitionTest extends StatefulWidget {
@@ -14,9 +14,26 @@ class TextRecognitionTest extends StatefulWidget {
 
 class _TextRecognitionTestState extends State<TextRecognitionTest> {
   final ImagePicker _picker = ImagePicker();
+  final MLReceiptParser _mlParser = MLReceiptParser();
   File? _image;
   String _recognizedText = '';
   bool _isProcessing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeParser();
+  }
+
+  Future<void> _initializeParser() async {
+    await _mlParser.initialize();
+  }
+
+  @override
+  void dispose() {
+    _mlParser.close();
+    super.dispose();
+  }
 
   Future<void> _getImageAndRecognizeText(ImageSource source) async {
     final XFile? pickedFile = await _picker.pickImage(source: source);
@@ -42,9 +59,8 @@ class _TextRecognitionTestState extends State<TextRecognitionTest> {
           }
         }
 
-        // Parse the receipt text
-        final receiptParser = ReceiptParser();
-        receiptParser.parseReceiptText(text);
+        // Parse the receipt text with ML parser
+        await _mlParser.parseReceiptText(text);
 
         setState(() {
           _recognizedText = text;
@@ -59,11 +75,15 @@ class _TextRecognitionTestState extends State<TextRecognitionTest> {
               builder: (context) => ReceiptConfirmationScreen(
                 imageFile: _image!,
                 recognizedText: text,
-                merchantName: receiptParser.merchantName,
-                merchantAddress: receiptParser.merchantAddress,
-                transactionDate: receiptParser.transactionDate,
-                amount: receiptParser.amount,
-                currency: receiptParser.currency,
+                merchantName: _mlParser.merchantName,
+                merchantAddress: _mlParser.merchantAddress,
+                transactionDate: _mlParser.transactionDate,
+                amount: _mlParser.amount,
+                currency: _mlParser.currency,
+                receiptType: _mlParser.receiptType,
+                additionalFields: _mlParser.additionalFields,
+                confidenceScore: _mlParser.confidenceScore,
+                suggestions: _mlParser.suggestions,
               ),
             ),
           );
