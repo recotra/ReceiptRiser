@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'core/constants/app_constants.dart';
 import 'core/theme/app_theme.dart';
-import 'presentation/screens/login_screen.dart';
-import 'services/auth/google_auth_service.dart';
+import 'presentation/screens/simple_login_screen.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
-  await Firebase.initializeApp();
-
+  print('Starting app initialization...');
+  print('Running app without Firebase...');
   runApp(const MyApp());
+  print('App started');
 }
 
 class MyApp extends StatefulWidget {
@@ -22,8 +20,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final GoogleAuthService _authService = GoogleAuthService();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,7 +28,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      home: const SimpleLoginScreen(),
     );
   }
 }

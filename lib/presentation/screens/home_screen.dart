@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_constants.dart';
 import '../../features/receipt_scanning/text_recognition_test.dart';
+import '../../services/auth/mock_auth_service.dart';
 import 'settings_screen.dart';
+import 'simple_login_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final MockAuthService _mockAuthService = MockAuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +30,19 @@ class HomeScreen extends StatelessWidget {
                   builder: (context) => const SettingsScreen(),
                 ),
               );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              print('HomeScreen: Signing out');
+              await _mockAuthService.signOut();
+              if (mounted) {
+                print('HomeScreen: Navigating to login screen');
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const SimpleLoginScreen()),
+                );
+              }
             },
           ),
         ],

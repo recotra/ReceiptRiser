@@ -23,27 +23,40 @@ class GoogleAuthService {
   // Sign in with Google
   Future<UserCredential?> signInWithGoogle() async {
     try {
+      print('GoogleAuthService: Starting Google sign-in flow');
+
       // Trigger the authentication flow
+      print('GoogleAuthService: Calling _googleSignIn.signIn()');
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+      print('GoogleAuthService: _googleSignIn.signIn() returned: ${googleUser != null ? 'account' : 'null'}');
 
       if (googleUser == null) {
         // User canceled the sign-in flow
+        print('GoogleAuthService: User cancelled sign-in');
         return null;
       }
 
       // Obtain the auth details from the request
+      print('GoogleAuthService: Getting authentication details');
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      print('GoogleAuthService: Got authentication details');
 
       // Create a new credential
+      print('GoogleAuthService: Creating Firebase credential');
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       // Sign in to Firebase with the Google credential
-      return await _firebaseAuth.signInWithCredential(credential);
+      print('GoogleAuthService: Signing in to Firebase');
+      final userCredential = await _firebaseAuth.signInWithCredential(credential);
+      print('GoogleAuthService: Firebase sign-in successful');
+
+      return userCredential;
     } catch (e) {
-      print('Error signing in with Google: $e');
+      print('GoogleAuthService: Error signing in with Google: $e');
       rethrow;
     }
   }

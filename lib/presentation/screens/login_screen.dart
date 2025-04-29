@@ -17,33 +17,47 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    print('LoginScreen: initState called');
     _checkIfAlreadyLoggedIn();
   }
 
   Future<void> _checkIfAlreadyLoggedIn() async {
-    if (_authService.isSignedIn) {
+    print('LoginScreen: Checking if already logged in');
+    final isSignedIn = _authService.isSignedIn;
+    print('LoginScreen: isSignedIn = $isSignedIn');
+
+    if (isSignedIn) {
+      print('LoginScreen: User is already signed in, navigating to home');
       _navigateToHome();
+    } else {
+      print('LoginScreen: User is not signed in');
     }
   }
 
   Future<void> _signInWithGoogle() async {
+    print('LoginScreen: Starting Google sign-in');
     setState(() {
       _isLoading = true;
       _errorMessage = null;
     });
 
     try {
+      print('LoginScreen: Calling signInWithGoogle()');
       final userCredential = await _authService.signInWithGoogle();
-      
+      print('LoginScreen: Sign-in result: ${userCredential != null ? 'success' : 'cancelled'}');
+
       if (userCredential != null && mounted) {
+        print('LoginScreen: Sign-in successful, navigating to home');
         _navigateToHome();
       } else if (mounted) {
+        print('LoginScreen: Sign-in cancelled by user');
         setState(() {
           _errorMessage = 'Sign in cancelled';
           _isLoading = false;
         });
       }
     } catch (e) {
+      print('LoginScreen: Error during sign-in: $e');
       if (mounted) {
         setState(() {
           _errorMessage = 'Error signing in: $e';
@@ -101,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  
+
                   // App name
                   const Text(
                     'ReceiptRiser',
@@ -112,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  
+
                   // App tagline
                   const Text(
                     'Scan, Organize, and Analyze Your Receipts',
@@ -123,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 64),
-                  
+
                   // Sign in button
                   ElevatedButton(
                     onPressed: _isLoading ? null : _signInWithGoogle,
@@ -165,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // Error message
                   if (_errorMessage != null)
                     Container(
@@ -181,9 +195,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Privacy policy
                   TextButton(
                     onPressed: () {
